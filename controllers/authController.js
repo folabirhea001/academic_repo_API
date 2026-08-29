@@ -14,9 +14,11 @@ const registerStudent = async (req, res) => {
   const { matricNo, fullName, email, password, level, department } = req.body;
 
   try {
+    const normalizedMatricNo = matricNo.trim().toUpperCase();
+    const normalizedEmail = email.trim().toLowerCase();
     // Check if student already exists
     const studentExists = await Student.findOne({ 
-      $or: [{ matricNo }, { email }] 
+      $or: [{ matricNo: normalizedMatricNo }, { email: normalizedEmail }] 
     });
 
     if (studentExists) {
@@ -27,9 +29,9 @@ const registerStudent = async (req, res) => {
 
     // Create new student
     const student = await Student.create({
-      matricNo,
+      matricNo: normalizedMatricNo,
       fullName,
-      email,
+      email: normalizedEmail,
       password,
       level,
       department
@@ -56,9 +58,10 @@ const registerStudent = async (req, res) => {
 // ─── STUDENT LOGIN ───────────────────────────────────────────
 const loginStudent = async (req, res) => {
   const { matricNo, password } = req.body;
+  const normalizedMatricNo = matricNo.trim().toUpperCase();
 
   try {
-    const student = await Student.findOne({ matricNo });
+    const student = await Student.findOne({ matricNo: normalizedMatricNo });
 
     if (!student) {
       return res.status(401).json({ message: 'Invalid matric number or password' });
