@@ -114,6 +114,33 @@ const getAllStudents = async (req, res) => {
   }
 };
 
+// --- GET ONE STUDENT BY ID ─────────────────────────────────────────
+const getStudentById = async (req, res) => {
+  try {
+    const student = await Student.findById(req.params.id).select('-password');
+    if (!student) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
+    res.json(student);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+//--- DELETE STUDENT BY ID ─────────────────────────────────────────
+const deleteStudentById = async (req, res) => {
+  try {
+    const student = await Student.findById(req.params.id);
+    if (!student) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
+    await student.deleteOne();
+    res.json({ message: 'Student deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  } 
+};
+
 // ─── GENERATE QUIZ WITH AI ───────────────────────────────────
 const generateQuizWithAI = async (req, res) => {
   try {
@@ -209,5 +236,7 @@ module.exports = {
   createQuiz,
   generateQuizWithAI,
   getAllQuizzes,
-  getAllStudents
+  getAllStudents,
+  getStudentById,
+  deleteStudentById
 };

@@ -9,7 +9,9 @@ const {
   createQuiz,
   generateQuizWithAI,
   getAllQuizzes,
-  getAllStudents
+  getAllStudents,
+  getStudentById,
+  deleteStudentById
 } = require('../controllers/adminController');
 
 // Material routes
@@ -24,5 +26,7 @@ router.get('/quizzes', protectAdmin, getAllQuizzes);
 
 // Student routes
 router.get('/students', protectAdmin, getAllStudents);
+router.get('/students/:id', protectAdmin, getStudentById);
+router.delete('/students/:id', protectAdmin, deleteStudentById);
 
 module.exports = router;

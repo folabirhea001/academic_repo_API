@@ -11,7 +11,7 @@ dotenv.config();
 connectDB();
 
 const corsOptions = {
-  origin: 'https://folabirhea001.github.io',
+  origin: ['https://folabirhea001.github.io', 'http://127.0.0.1:5500'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
