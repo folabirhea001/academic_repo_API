@@ -15,31 +15,27 @@ const corsOptions = {
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
-  optionsSuccessStatus: 200 // Fixes legacy browser issues (Safari/IE11)
+  optionsSuccessStatus: 200 
 };
 
 const app = express();
 
-// Middleware
+// 1. Core Middleware (app.use handles preflight dynamically, no need for app.options)
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-// Routes (we will add these one by one)
+// 2. Routes 
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/materials', require('./routes/materialRoutes'));
 app.use('/api/quiz', require('./routes/quizRoutes'));
 app.use('/api/chat', require('./routes/chatRoutes'));
 
-//Serve frontend static files
+// 3. Serve frontend static files
 app.use(express.static(path.join(__dirname, 'frontend')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use(express.static(path.join(__dirname, 'frontend')));
 
 const PORT = process.env.PORT || 5000;
 
