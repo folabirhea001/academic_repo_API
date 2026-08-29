@@ -13,10 +13,11 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(cors({ 
-  origin: true,
-  credentials: true 
+app.use(cors({
+  origin: 'https://folabirhea001.github.io',
+  credentials: true // Optional: Set to true if you use cookies/sessions
 }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
