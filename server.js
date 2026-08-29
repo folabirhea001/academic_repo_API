@@ -10,13 +10,20 @@ dotenv.config();
 // Connect to database
 connectDB();
 
+const corsOptions = {
+  origin: 'https://folabirhea001.github.io',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 200 // Fixes legacy browser issues (Safari/IE11)
+};
+
 const app = express();
 
 // Middleware
-app.use(cors({
-  origin: 'https://folabirhea001.github.io',
-  credentials: true // Optional: Set to true if you use cookies/sessions
-}));
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
